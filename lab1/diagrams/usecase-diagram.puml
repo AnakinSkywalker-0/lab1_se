@@ -1,0 +1,40 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "Donor Partner" as DP
+actor "Shelter Coordinator" as SC
+actor "Platform Admin" as PA
+actor "Push Notification Service" as PNS <<system>>
+actor "Scheduler" as SCH <<system>>
+
+rectangle "Food Bank Surplus Redistribution Platform" {
+  usecase "Register Account" as UC1
+  usecase "Post Surplus Food Batch" as UC2
+  usecase "Set Expiry Timer & Dietary Tags" as UC2a
+  usecase "Send Proximity Push Alert" as UC2b
+  usecase "Manage Batch Listing" as UC3
+  usecase "Confirm Pickup via Code" as UC4
+  usecase "Auto-Expire Batch" as UC5
+  usecase "Browse Claim Board" as UC6
+  usecase "Reserve Pickup Window" as UC7
+  usecase "Generate Pickup Verification Code" as UC7a
+  usecase "Cancel Reservation" as UC7b
+  usecase "Verify Shelter Account" as UC8
+}
+DP --> UC1
+SC --> UC1
+DP --> UC2
+DP --> UC3
+DP --> UC4
+SC --> UC6
+SC --> UC7
+SC --> UC7b
+PA --> UC8
+PNS --> UC2b
+SCH --> UC5
+
+UC2  ..> UC2a  : <<include>>
+UC7  ..> UC7a  : <<include>>
+UC2b ..> UC2   : <<extend>>\n[qty >= threshold]
+UC7b ..> UC7   : <<extend>>
+@enduml
